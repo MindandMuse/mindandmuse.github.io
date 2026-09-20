@@ -4,3 +4,14 @@
 
 .teacher-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}.teacher-card{border:1px solid var(--line);background:#fff}.teacher-photo{position:relative;aspect-ratio:4/3;background:#ebe6dd;overflow:hidden}.teacher-photo img{width:100%;height:100%;object-fit:cover;display:block}.photo-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--muted);font-size:12px;letter-spacing:.16em}.photo-placeholder small{font-size:10px;letter-spacing:.04em;text-transform:none}.teacher-info{padding:34px}.teacher-info h3{font-size:36px;font-weight:500;margin:8px 0 18px}.teacher-info p:not(.eyebrow){font-size:16px;color:var(--muted);margin:0 0 18px}.teacher-info .text-link{display:inline-block;margin-top:4px}.teacher-link{margin-left:18px}.teachers{padding-top:7vw}.teachers .section-title{margin-bottom:52px}
 @media(max-width:800px){.teacher-grid{grid-template-columns:1fr}.teacher-info{padding:28px}.teacher-link{margin-left:0;margin-top:14px}.teachers{padding-top:15vw}}
+
+/* Teacher profile pages */
+.profile-hero{padding:7vw;display:grid;grid-template-columns:.9fr 1.1fr;gap:8vw;align-items:center;border-bottom:1px solid var(--line)}
+.profile-photo{aspect-ratio:4/3}
+.profile-hero h1{font-size:clamp(58px,8vw,105px);line-height:.94;letter-spacing:-.055em;font-weight:500;margin:0}
+.profile-hero h1 em{font-family:'Playfair Display',serif;font-weight:500}
+.profile-content{padding:9vw 7vw;display:grid;grid-template-columns:.8fr 1.2fr;gap:10vw;border-bottom:1px solid var(--line)}
+.profile-content h2{font-size:clamp(40px,5vw,70px);line-height:1.05;font-weight:500;letter-spacing:-.04em;margin:0}.profile-content h2 em{font-family:'Playfair Display',serif;font-weight:500}
+.profile-copy p{font-size:18px;color:var(--muted);margin:0 0 22px;max-width:720px}.profile-copy p:last-child{margin-bottom:0}
+.profile-highlights{padding:8vw 7vw;display:grid;grid-template-columns:1fr 1fr;gap:24px}.profile-highlights>div{border-top:1px solid var(--ink);padding:24px 0}.profile-highlights h3{font-size:30px;font-weight:500;margin:12px 0}.profile-highlights p:not(.eyebrow){color:var(--muted);font-size:17px;max-width:560px}
+@media(max-width:800px){.profile-hero,.profile-content,.profile-highlights{grid-template-columns:1fr}.profile-hero{padding:14vw 7vw;gap:10vw}.profile-content{padding:15vw 7vw;gap:50px}.profile-highlights{padding:15vw 7vw}.profile-hero h1{font-size:64px}}
