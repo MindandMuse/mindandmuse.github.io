@@ -1,1 +1,313 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>My Account | Mind & Muse</title><link rel="stylesheet" href="style.css"><style>.account-wrap{max-width:900px;margin:0 auto;padding:8vw 7vw}.account-card{background:#fff;border:1px solid var(--line);padding:42px}.account-card h2{font-size:34px;font-weight:500;margin:0 0 8px}.account-card p{color:var(--muted)}.account-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px}.account-box{border-top:1px solid var(--ink);padding:24px 0}.account-box h3{font-size:24px;font-weight:500;margin:0 0 10px}.logout{margin-top:28px}.account-message{padding:14px;background:#f1ece4}@media(max-width:700px){.account-grid{grid-template-columns:1fr}}</style></head><body><header><a class="logo" href="index.html">MIND & MUSE</a><nav><a href="index.html">Home</a><a href="piano.html">Piano</a><a href="english.html">English</a><a href="chess.html">Chess</a><a href="trial.html">Trial Lesson</a><a class="nav-cta" href="booking.html">Book a Lesson</a><a class="nav-cta" href="account.html">My Account</a></nav></header><main><section class="page-hero"><p class="eyebrow">STUDENT AREA</p><h1>My<br><em>account.</em></h1><p class="lead">Your personal Mind & Muse space.</p></section><div class="account-wrap"><section class="account-card"><h2 id="welcome">Welcome</h2><p id="email"></p><div class="account-grid"><div class="account-box"><p class="eyebrow">YOUR PROFILE</p><h3>Student account</h3><p>Your account is active. This area will become the place for your lessons, materials, notes and other student information.</p></div><div class="account-box"><p class="eyebrow">BOOKING</p><h3>Book a lesson</h3><p>Choose a lesson and available time from the booking timetable.</p><a class="text-link" href="booking.html">Book a lesson →</a></div></div><p class="account-message">More student features can be added here later, including upcoming lessons, lesson materials, online lesson links and payment history.</p><button class="button logout" id="logout">Log Out</button></section></div></main><footer><span>© 2026 Mind & Muse</span><span>Learn · Create · Express</span></footer><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>const supabaseClient=window.supabase.createClient('https://yqkenojjfergqfslbpts.supabase.co','sb_publishable_8lZ1sx8R_-p9aryao9IrtA_XqRWEHSm');(async()=>{const {data:{session}}=await supabaseClient.auth.getSession();if(!session){window.location.href='auth.html';return;}const user=session.user;document.getElementById('email').textContent=user.email||'';document.getElementById('welcome').textContent='Welcome, '+(user.user_metadata?.full_name||'student')+'.';})();document.getElementById('logout').addEventListener('click',async()=>{await supabaseClient.auth.signOut();window.location.href='auth.html';});</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>My Account | Mind & Muse</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+.account-wrap{
+  max-width:1100px;
+  margin:0 auto;
+  padding:7vw 6vw 9vw;
+}
+
+.account-welcome{
+  margin-bottom:45px;
+}
+
+.account-welcome .eyebrow{
+  margin-bottom:12px;
+}
+
+.account-welcome h1{
+  margin-bottom:12px;
+}
+
+.account-welcome h1 em{
+  font-style:italic;
+}
+
+.account-email{
+  color:var(--muted);
+  font-size:15px;
+}
+
+.dashboard-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:22px;
+}
+
+.dashboard-card{
+  background:#fff;
+  border:1px solid var(--line);
+  padding:30px;
+  min-height:190px;
+  display:flex;
+  flex-direction:column;
+}
+
+.dashboard-card-wide{
+  grid-column:1 / -1;
+}
+
+.dashboard-card h2{
+  font-size:24px;
+  font-weight:500;
+  margin:0 0 8px;
+}
+
+.dashboard-card p{
+  color:var(--muted);
+  line-height:1.7;
+}
+
+.card-label{
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:14px;
+}
+
+.empty-state{
+  margin-top:auto;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+  font-size:14px;
+}
+
+.subject-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:20px;
+}
+
+.subject{
+  border:1px solid var(--line);
+  padding:9px 13px;
+  font-size:13px;
+  background:#faf8f4;
+}
+
+.account-actions{
+  display:flex;
+  gap:12px;
+  margin-top:35px;
+  flex-wrap:wrap;
+}
+
+.logout-button{
+  background:none;
+  border:1px solid var(--line);
+  padding:12px 20px;
+  font:inherit;
+  cursor:pointer;
+}
+
+.logout-button:hover{
+  background:#f5f1eb;
+}
+
+@media(max-width:700px){
+  .dashboard-grid{
+    grid-template-columns:1fr;
+  }
+
+  .dashboard-card-wide{
+    grid-column:auto;
+  }
+
+  .account-wrap{
+    padding-left:7vw;
+    padding-right:7vw;
+  }
+
+  .dashboard-card{
+    padding:24px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a class="logo" href="index.html">MIND & MUSE</a>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="piano.html">Piano</a>
+    <a href="english.html">English</a>
+    <a href="chess.html">Chess</a>
+    <a href="trial.html">Trial Lesson</a>
+    <a class="nav-cta" href="booking.html">Book a Lesson</a>
+    <a class="nav-cta" href="account.html">My Account</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="account-wrap">
+
+  <div class="account-welcome">
+    <p class="eyebrow">MIND & MUSE STUDENT AREA</p>
+
+    <h1>
+      Welcome,<br>
+      <em id="student-name">Student.</em>
+    </h1>
+
+    <p class="account-email" id="student-email"></p>
+  </div>
+
+  <div class="dashboard-grid">
+
+    <section class="dashboard-card dashboard-card-wide">
+      <div class="card-label">Your learning</div>
+
+      <h2>Upcoming lessons</h2>
+
+      <p>
+        Your upcoming lessons will appear here once they have been scheduled.
+      </p>
+
+      <div class="empty-state">
+        No upcoming lessons yet.
+      </div>
+    </section>
+
+
+    <section class="dashboard-card">
+      <div class="card-label">Subjects</div>
+
+      <h2>My subjects</h2>
+
+      <p>
+        Your enrolled subjects will appear here.
+      </p>
+
+      <div class="subject-list">
+        <span class="subject">Piano</span>
+        <span class="subject">English</span>
+        <span class="subject">Chess</span>
+      </div>
+    </section>
+
+
+    <section class="dashboard-card">
+      <div class="card-label">Resources</div>
+
+      <h2>Lesson materials</h2>
+
+      <p>
+        Access your exercises, notes, sheet music, vocabulary, and other
+        learning materials here.
+      </p>
+
+      <div class="empty-state">
+        No materials have been added yet.
+      </div>
+    </section>
+
+
+    <section class="dashboard-card">
+      <div class="card-label">Progress</div>
+
+      <h2>My progress</h2>
+
+      <p>
+        Your learning goals, teacher feedback, and progress will appear here.
+      </p>
+
+      <div class="empty-state">
+        Progress tracking coming soon.
+      </div>
+    </section>
+
+
+    <section class="dashboard-card">
+      <div class="card-label">Payments</div>
+
+      <h2>Payment history</h2>
+
+      <p>
+        Your payments, invoices, and receipts will appear here.
+      </p>
+
+      <div class="empty-state">
+        No payment history yet.
+      </div>
+    </section>
+
+  </div>
+
+  <div class="account-actions">
+    <a class="button" href="booking.html">Book a Lesson</a>
+    <button class="logout-button" id="logout-button">Log out</button>
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  <span>© 2026 Mind & Muse</span>
+  <span>Learn · Create · Express</span>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = 'https://yqkenojjfergqfslbpts.supabase.co';
+
+const SUPABASE_PUBLISHABLE_KEY =
+'sb_publishable_8lZ1sx8R_-p9aryao9IrtA_XqRWEHSm';
+
+const supabaseClient =
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+async function loadAccount(){
+
+  const {
+    data: { session }
+  } = await supabaseClient.auth.getSession();
+
+  if(!session){
+    window.location.href = 'auth.html';
+    return;
+  }
+
+  const user = session.user;
+
+  const name =
+    user.user_metadata?.full_name || 'Student';
+
+  document.getElementById('student-name').textContent =
+    name + '.';
+
+  document.getElementById('student-email').textContent =
+    user.email;
+}
+
+document
+.getElementById('logout-button')
+.addEventListener('click', async () => {
+
+  await supabaseClient.auth.signOut();
+
+  window.location.href = 'auth.html';
+});
+
+loadAccount();
+</script>
+
+</body>
+</html>
