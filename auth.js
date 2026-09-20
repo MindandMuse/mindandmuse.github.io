@@ -13,7 +13,9 @@ async function handleSignup() {
   const name = document.getElementById('signup-name').value.trim();
   const email = document.getElementById('signup-email').value.trim();
   const password = document.getElementById('signup-password').value;
-  if (!name || !email || !password) return setMessage('Please complete all fields.', 'error');
+  const confirmPassword = document.getElementById('signup-password-confirm').value;
+  if (!name || !email || !password || !confirmPassword) return setMessage('Please complete all fields.', 'error');
+  if (password !== confirmPassword) return setMessage('Passwords do not match. Please try again.', 'error');;
   if (password.length < 6) return setMessage('Your password must be at least 6 characters.', 'error');
   const { error } = await supabaseClient.auth.signUp({
     email, password,
