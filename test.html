@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mind & Muse — Email Test</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 520px; margin: 60px auto; padding: 20px; line-height: 1.5; }
+    h1 { margin-bottom: 8px; }
+    p { color: #555; }
+    label { display: block; margin: 16px 0 6px; }
+    input, textarea { width: 100%; box-sizing: border-box; padding: 12px; font-size: 16px; }
+    textarea { min-height: 120px; }
+    button { margin-top: 20px; padding: 12px 20px; font-size: 16px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Mind & Muse Email Test</h1>
+  <p>This is a temporary test to check that FormSubmit can deliver emails to Mind & Muse.</p>
+  <form action="https://formsubmit.co/mindandmuse.info@gmail.com" method="POST">
+    <label for="name">Your name</label>
+    <input id="name" type="text" name="name" required>
+    <label for="email">Your email</label>
+    <input id="email" type="email" name="email" required>
+    <label for="message">Message</label>
+    <textarea id="message" name="message" required>This is a test of the Mind & Muse booking email.</textarea>
+    <input type="hidden" name="_subject" value="Mind & Muse TEST">
+    <input type="hidden" name="_template" value="table">
+    <button type="submit">Send Test</button>
+  </form>
+</body>
+</html>
