@@ -1,6 +1,185 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Book a Lesson</title><link rel="stylesheet" href="style.css"></head><body><header><a class="logo" href="index.html">MIND & MUSE</a><nav><a href="index.html">Home</a><a href="piano.html">Piano</a><a href="english.html">English</a><a href="chess.html">Chess</a><a href="trial.html">Trial Lesson</a><a class="nav-cta" href="booking.html">Book a Lesson</a></nav></header><main><section class="page-hero"><p class="eyebrow">BOOKING</p><h1>Tell me a little<br><em>about yourself.</em></h1><p class="lead">Send an enquiry and we'll find the right lesson and time for you.</p></section><form class="booking-form" action="https://formsubmit.co/mindandmuse.info@gmail.com" method="POST"><label>Name<input name="name" required placeholder="Your name"></label><label>Email<input type="email" name="email" required placeholder="you@example.com"></label><label>Lesson<select name="lesson"><option>Classical Piano</option><option>English</option><option>Chess</option><option>Trial Lesson</option></select></label><label>Current level<input name="level" placeholder="Beginner, intermediate, advanced..."></label><label>Your goals<textarea name="goals" rows="4" placeholder="What would you like to achieve?"></textarea></label><label>Preferred times<textarea name="times" rows="3" placeholder="Days and times that suit you"></textarea></label><button class="button" type="submit">Send Enquiry</button><input type="hidden" name="_subject" value="New Mind & Muse lesson enquiry">
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Book a Lesson | Mind & Muse</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.booking-intro{max-width:720px;margin-bottom:42px}.booking-intro .lead{max-width:650px}
+.booking-panel{max-width:980px;margin:0 auto 80px}
+.booking-section{border-top:1px solid rgba(31,29,26,.14);padding:28px 0}
+.booking-section h2{font-size:1.25rem;margin:0 0 18px}
+.lesson-choice{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.lesson-choice button,.slot{font:inherit;border:1px solid rgba(31,29,26,.18);background:#f8f5ef;color:#211f1b;border-radius:8px;padding:14px 12px;cursor:pointer;transition:.18s ease}
+.lesson-choice button:hover,.slot:hover{border-color:#8d8173;transform:translateY(-1px)}
+.lesson-choice button.active{background:#211f1b;color:#fff;border-color:#211f1b}
+.date-row{display:flex;gap:14px;align-items:end;flex-wrap:wrap}.date-field{max-width:260px}.date-field label{display:block;font-size:.86rem;margin-bottom:7px}.date-field input{width:100%;box-sizing:border-box;padding:13px;border:1px solid rgba(31,29,26,.2);border-radius:7px;background:#fff;font:inherit}
+.selected-info{margin-top:18px;padding:13px 15px;background:#f1ece4;border-radius:7px;min-height:20px}
+.slots{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:10px}.slot.selected{background:#211f1b;color:#fff;border-color:#211f1b}.slot small{display:block;opacity:.7;margin-top:3px}
+.no-slots{color:#716a62;margin:0}.booking-form{max-width:720px;margin-top:0}.booking-form label{display:block;margin-bottom:18px}.booking-form input,.booking-form textarea{width:100%;box-sizing:border-box;margin-top:7px;padding:13px;border:1px solid rgba(31,29,26,.2);border-radius:7px;background:#fff;font:inherit}.booking-form input:focus,.booking-form textarea:focus,.date-field input:focus{outline:2px solid rgba(141,129,115,.35);outline-offset:1px}.booking-form .button{border:0;cursor:pointer}.helper{font-size:.9rem;color:#716a62;margin-top:8px}
+@media(max-width:760px){.lesson-choice{grid-template-columns:repeat(2,1fr)}.slots{grid-template-columns:repeat(2,minmax(120px,1fr))}}
+@media(max-width:430px){.lesson-choice{grid-template-columns:1fr}.slots{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><a class="logo" href="index.html">MIND & MUSE</a><nav><a href="index.html">Home</a><a href="piano.html">Piano</a><a href="english.html">English</a><a href="chess.html">Chess</a><a href="trial.html">Trial Lesson</a><a class="nav-cta" href="booking.html">Book a Lesson</a></nav></header>
+<main>
+<section class="page-hero booking-intro"><p class="eyebrow">BOOKING</p><h1>Choose your<br><em>lesson time.</em></h1><p class="lead">Select a lesson, choose a date, and pick an available time. The timetable below is based on our current weekly availability.</p></section>
+
+<section class="booking-panel">
+<div class="booking-section">
+<h2>1. Choose your lesson</h2>
+<div class="lesson-choice" role="group" aria-label="Choose a lesson">
+<button type="button" class="lesson active" data-lesson="piano">Classical Piano</button>
+<button type="button" class="lesson" data-lesson="english">English</button>
+<button type="button" class="lesson" data-lesson="chess">Chess</button>
+<button type="button" class="lesson" data-lesson="trial">Trial Lesson</button>
+</div>
+<p class="helper">Piano lessons are 45 minutes. English and Chess lessons are 60 minutes. Trial lessons use the selected lesson's available times.</p>
+</div>
+
+<div class="booking-section">
+<h2>2. Choose a date</h2>
+<div class="date-row"><div class="date-field"><label for="lesson-date">Date</label><input id="lesson-date" type="date"></div></div>
+<div id="selected-info" class="selected-info" aria-live="polite">Select a date to see available times.</div>
+</div>
+
+<div class="booking-section">
+<h2>3. Choose a time</h2>
+<div id="slots" class="slots" aria-live="polite"></div>
+<input type="hidden" id="selected-slot" name="selected-slot">
+</div>
+
+<div class="booking-section">
+<h2>4. Your details</h2>
+<form class="booking-form" id="booking-form" action="https://formsubmit.co/mindandmuse.info@gmail.com" method="POST">
+<label>Name<input name="name" required placeholder="Your name"></label>
+<label>Email<input type="email" name="email" required placeholder="you@example.com"></label>
+<input type="hidden" name="lesson" id="form-lesson" value="Classical Piano">
+<input type="hidden" name="date" id="form-date">
+<input type="hidden" name="time" id="form-time">
+<label>Current level<input name="level" placeholder="Beginner, intermediate, advanced..."></label>
+<label>Your goals<textarea name="goals" rows="4" placeholder="What would you like to achieve?"></textarea></label>
+<label>Anything else?<textarea name="notes" rows="3" placeholder="Optional"></textarea></label>
+<input type="hidden" name="_subject" value="New Mind & Muse lesson booking">
 <input type="hidden" name="_next" value="https://mindandmuse.github.io/thanks.html">
 <input type="hidden" name="_template" value="table">
-<input type="hidden" name="_url" value="https://mindandmuse.github.io/booking.html">
-<input type="hidden" name="_autoresponse" value="Thank you for contacting Mind & Muse. We have received your lesson enquiry and will get back to you as soon as possible.">
-</form></main><footer><span>© 2026 Mind & Muse</span><span>Learn · Create · Express</span></footer></body></html>
+<button class="button" type="submit">Send Booking Enquiry</button>
+<p class="helper">Your selected lesson, date and time will be included with your enquiry.</p>
+</form>
+</div>
+</section>
+</main>
+<footer><span>© 2026 Mind & Muse</span><span>Learn · Create · Express</span></footer>
+<script>
+/* EDIT YOUR AVAILABILITY HERE.
+   Times use 24-hour format. Change the days or times below whenever you like.
+   Piano = 45-minute slots. English and Chess = 60-minute slots.
+*/
+const availability = {
+  piano: {
+    monday: ['08:00','16:00'],
+    tuesday: ['08:00','22:00'],
+    thursday: ['17:00','22:00'],
+    sunday: ['10:00','17:00']
+  },
+  english: {
+    monday: ['07:00','16:00'],
+    tuesday: ['07:00','23:00'],
+    thursday: ['17:00','22:00'],
+    sunday: ['10:00','17:00']
+  },
+  chess: {
+    monday: ['17:00','21:00'],
+    tuesday: ['17:00','21:00'],
+    wednesday: ['17:00','21:00'],
+    thursday: ['17:00','21:00'],
+    friday: ['17:00','21:00']
+  }
+};
+
+const durations = {piano:45, english:60, chess:60, trial:45}; // Trial follows Piano timing unless you change it here.
+const labels = {piano:'Classical Piano', english:'English', chess:'Chess', trial:'Trial Lesson'};
+let selectedLesson='piano';
+let selectedTime='';
+const dateInput=document.getElementById('lesson-date');
+const slotsEl=document.getElementById('slots');
+const infoEl=document.getElementById('selected-info');
+const selectedSlotInput=document.getElementById('selected-slot');
+const formLesson=document.getElementById('form-lesson');
+const formDate=document.getElementById('form-date');
+const formTime=document.getElementById('form-time');
+const form=document.getElementById('booking-form');
+
+const pad=n=>String(n).padStart(2,'0');
+const today=new Date();
+today.setHours(0,0,0,0);
+dateInput.min=`${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+
+function dateKey(date){return ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][date.getDay()]}
+function formatDate(date){return new Intl.DateTimeFormat('en-AU',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(date)}
+function formatTime(h,m){const d=new Date(2000,0,1,h,m);return new Intl.DateTimeFormat('en-AU',{hour:'numeric',minute:'2-digit'}).format(d)}
+function makeSlots(range,minutes){
+  if(!range) return [];
+  const [start,end]=range.map(v=>{const [h,m]=v.split(':').map(Number);return h*60+m});
+  const out=[];
+  for(let t=start;t+minutes<=end;t+=minutes){
+    const endT=t+minutes;
+    out.push({start:`${pad(Math.floor(t/60))}:${pad(t%60)}`,end:`${pad(Math.floor(endT/60))}:${pad(endT%60)}`});
+  }
+  return out;
+}
+function getRange(){
+  const base=availability[selectedLesson==='trial'?'piano':selectedLesson];
+  return base ? base[dateKey(new Date(`${dateInput.value}T12:00:00`))] : null;
+}
+function renderSlots(){
+  slotsEl.innerHTML=''; selectedTime=''; selectedSlotInput.value=''; formTime.value=''; formDate.value='';
+  if(!dateInput.value){infoEl.textContent='Select a date to see available times.';return;}
+  const date=new Date(`${dateInput.value}T12:00:00`);
+  if(date<today){infoEl.textContent='Please choose a future date.';return;}
+  const duration=durations[selectedLesson];
+  const slots=makeSlots(getRange(),duration);
+  infoEl.textContent=slots.length?`${labels[selectedLesson]} · ${formatDate(date)} · ${duration} minutes`:`No ${labels[selectedLesson]} slots are available on ${formatDate(date)}.`;
+  if(!slots.length){slotsEl.innerHTML='<p class="no-slots">Try another date.</p>';return;}
+  const now=new Date();
+  slots.forEach(slot=>{
+    const b=document.createElement('button');b.type='button';b.className='slot';
+    b.innerHTML=`${formatTime(...slot.start.split(':').map(Number))} – ${formatTime(...slot.end.split(':').map(Number))}<small>${duration} minutes</small>`;
+    const slotStart=new Date(`${dateInput.value}T${slot.start}:00`);
+    const isPastToday=date.getTime()===today.getTime() && slotStart<=now;
+    if(isPastToday){
+      b.disabled=true;
+      b.setAttribute('aria-disabled','true');
+      b.title='This time has already passed.';
+      b.style.opacity='.45';
+      b.style.cursor='not-allowed';
+    } else {
+      b.addEventListener('click',()=>{
+        document.querySelectorAll('.slot').forEach(x=>x.classList.remove('selected'));
+        b.classList.add('selected');selectedTime=slot.start;selectedSlotInput.value=`${slot.start}–${slot.end}`;formTime.value=selectedSlotInput.value;formDate.value=formatDate(date);infoEl.textContent=`Selected: ${labels[selectedLesson]} · ${formatDate(date)} · ${selectedSlotInput.value}`;
+      });
+    }
+    slotsEl.appendChild(b);
+  });
+}
+document.querySelectorAll('.lesson').forEach(btn=>btn.addEventListener('click',()=>{
+  document.querySelectorAll('.lesson').forEach(x=>x.classList.remove('active'));btn.classList.add('active');selectedLesson=btn.dataset.lesson;formLesson.value=labels[selectedLesson];renderSlots();
+}));
+dateInput.addEventListener('change',renderSlots);
+form.addEventListener('submit',e=>{
+  if(!dateInput.value || !selectedTime){e.preventDefault();infoEl.textContent='Please choose an available date and time before sending your enquiry.';return;}
+  formDate.value=dateInput.value;formTime.value=selectedSlotInput.value;
+});
+
+// Default to the next available date for the selected lesson.
+for(let i=0;i<60;i++){
+  const d=new Date(today);d.setDate(today.getDate()+i);
+  const key=dateKey(d);const range=availability.piano[key];
+  if(range){dateInput.value=`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;break;}
+}
+renderSlots();
+</script>
+</body>
+</html>
