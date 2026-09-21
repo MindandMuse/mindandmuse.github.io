@@ -61,3 +61,26 @@
   letter-spacing: 0.22em;
   font-weight: 500;
 }
+/* Main hero */
+.hero {
+  min-height: 75vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.hero-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.brand-name {
+  margin: 0;
+}
+
+.hero-tagline {
+  margin-top: 20px;
+}
