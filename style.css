@@ -15,3 +15,12 @@
 .profile-copy p{font-size:18px;color:var(--muted);margin:0 0 22px;max-width:720px}.profile-copy p:last-child{margin-bottom:0}
 .profile-highlights{padding:8vw 7vw;display:grid;grid-template-columns:1fr 1fr;gap:24px}.profile-highlights>div{border-top:1px solid var(--ink);padding:24px 0}.profile-highlights h3{font-size:30px;font-weight:500;margin:12px 0}.profile-highlights p:not(.eyebrow){color:var(--muted);font-size:17px;max-width:560px}
 @media(max-width:800px){.profile-hero,.profile-content,.profile-highlights{grid-template-columns:1fr}.profile-hero{padding:14vw 7vw;gap:10vw}.profile-content{padding:15vw 7vw;gap:50px}.profile-highlights{padding:15vw 7vw}.profile-hero h1{font-size:64px}}
+.brand-name {
+  display: inline-block;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.42em;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  margin-bottom: 18px;
+}
