@@ -53,7 +53,7 @@
 
 .hero-tagline span {
   font-family: "DM Sans", sans-serif;
-  font-size: 1rem;
+  font-size: 2.5rem;
   letter-spacing: 0.3em;
   font-weight: 400;
   line-height: 1.5;
@@ -77,6 +77,6 @@
   }
 
   .hero-tagline span {
-    font-size: 0.9rem;
+    font-size: 2rem;
   }
 }
