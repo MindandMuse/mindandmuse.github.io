@@ -54,9 +54,10 @@
 }
 
 .hero-tagline span {
-  font-size: 1.35rem;
-  letter-spacing: 0.22em;
-  font-weight: 500;
+  font-size: 1.4rem;
+  letter-spacing: 0.28em;
+  font-weight: 400;
+  line-height: 1.4;
 }
 /* Main hero */
 .hero {
