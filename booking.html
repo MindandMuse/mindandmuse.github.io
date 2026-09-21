@@ -56,6 +56,7 @@
 <label>Name<input name="name" required placeholder="Your name"></label>
 <label>Email<input type="email" name="email" required placeholder="you@example.com"></label>
 <input type="hidden" name="lesson" id="form-lesson" value="Classical Piano">
+<input type="hidden" name="booking_type" id="booking-type" value="Regular Lesson">
 <input type="hidden" name="date" id="form-date">
 <input type="hidden" name="time" id="form-time">
 <label>Current level<input name="level" placeholder="Beginner, intermediate, advanced..."></label>
@@ -108,6 +109,11 @@ const slotsEl=document.getElementById('slots');
 const infoEl=document.getElementById('selected-info');
 const selectedSlotInput=document.getElementById('selected-slot');
 const formLesson=document.getElementById('form-lesson');
+const bookingType=document.getElementById('booking-type');
+
+if(isTrial){
+  bookingType.value='Trial Lesson — 30 minutes';
+}
 const formDate=document.getElementById('form-date');
 const formTime=document.getElementById('form-time');
 const form=document.getElementById('booking-form');
