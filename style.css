@@ -17,9 +17,9 @@
 @media(max-width:800px){.profile-hero,.profile-content,.profile-highlights{grid-template-columns:1fr}.profile-hero{padding:14vw 7vw;gap:10vw}.profile-content{padding:15vw 7vw;gap:50px}.profile-highlights{padding:15vw 7vw}.profile-hero h1{font-size:64px}}
 .brand-name {
   margin: 0;
-  font-size: 3.2rem;
+  font-size: 3rem;
   font-weight: 500;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   line-height: 1.1;
 }
 .brand-tagline {
@@ -54,7 +54,7 @@
 }
 
 .hero-tagline span {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   letter-spacing: 0.28em;
   font-weight: 400;
   line-height: 1.4;
