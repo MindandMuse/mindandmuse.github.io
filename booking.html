@@ -98,7 +98,8 @@ const availability = {
   }
 };
 
-const durations = {piano:45, english:60, chess:60}; // Trial follows Piano timing unless you change it here.
+const durations = {piano:45, english:60, chess:60};
+const isTrial = new URLSearchParams(window.location.search).get('trial') === 'true';
 const labels = {piano:'Classical Piano', english:'English', chess:'Chess'};
 let selectedLesson='piano';
 let selectedTime='';
@@ -138,7 +139,7 @@ function renderSlots(){
   if(!dateInput.value){infoEl.textContent='Select a date to see available times.';return;}
   const date=new Date(`${dateInput.value}T12:00:00`);
   if(date<today){infoEl.textContent='Please choose a future date.';return;}
-  const duration=durations[selectedLesson];
+  const duration=isTrial ? 30 : durations[selectedLesson];
   const slots=makeSlots(getRange(),duration);
   infoEl.textContent=slots.length?`${labels[selectedLesson]} · ${formatDate(date)} · ${duration} minutes`:`No ${labels[selectedLesson]} slots are available on ${formatDate(date)}.`;
   if(!slots.length){slotsEl.innerHTML='<p class="no-slots">Try another date.</p>';return;}
