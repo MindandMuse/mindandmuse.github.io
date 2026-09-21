@@ -49,3 +49,15 @@
     line-height: 1.3;
   }
 }
+.hero-tagline {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.hero-tagline span {
+  font-size: 1.35rem;
+  letter-spacing: 0.22em;
+  font-weight: 500;
+}
