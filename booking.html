@@ -25,7 +25,7 @@
 <body>
 <header><a class="logo" href="index.html">MIND & MUSE</a><nav><a href="index.html">Home</a><a href="piano.html">Piano</a><a href="english.html">English</a><a href="chess.html">Chess</a><a href="trial.html">Trial Lesson</a><a class="nav-cta" href="booking.html">Book a Lesson</a></nav></header>
 <main>
-<section class="page-hero booking-intro"><p class="eyebrow">BOOKING</p><h1>Choose your<br><em>lesson time.</em></h1><p class="lead">Select a lesson, choose a date, and pick an available time. The timetable below is based on our current weekly availability.</p></section>
+<section class="page-hero booking-intro"><p class="eyebrow">BOOKING</p><h1 id="booking-title">Choose your<br><em>lesson time.</em></h1><p class="lead" id="booking-lead">Select a lesson, choose a date, and pick an available time. The timetable below is based on our current weekly availability.</p></section>
 
 <section class="booking-panel">
 <div class="booking-section">
@@ -111,7 +111,12 @@ const formLesson=document.getElementById('form-lesson');
 const formDate=document.getElementById('form-date');
 const formTime=document.getElementById('form-time');
 const form=document.getElementById('booking-form');
+const bookingTitle=document.getElementById('booking-title');
 
+if(isTrial){
+  bookingTitle.innerHTML='Request your<br><em>trial lesson.</em>';
+  document.getElementById('booking-lead').textContent='Choose your subject, select a convenient date and time, and tell us a little about yourself. Your trial lesson will be 30 minutes.';
+}
 const pad=n=>String(n).padStart(2,'0');
 const today=new Date();
 today.setHours(0,0,0,0);
