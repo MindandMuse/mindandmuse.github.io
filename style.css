@@ -84,3 +84,19 @@
 .hero-tagline {
   margin-top: 20px;
 }
+.hero-tagline {
+  position: relative;
+  padding-bottom: 28px;
+}
+
+.hero-tagline::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 45px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.4;
+}
