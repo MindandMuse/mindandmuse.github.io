@@ -198,11 +198,11 @@
 
     <div class="lesson-choice">
 
-      <!-- CLASSICAL PIANO -->
+      <!-- PIANO -->
       <div class="lesson-card">
         <span class="lesson-label">PIANO</span>
 
-        <h3>Classical Piano</h3>
+        <h3> Piano</h3>
 
         <p>
           Personalised piano lessons shaped around your level,
@@ -217,7 +217,7 @@
           class="button"
           href="https://cal.com/mind-muse-zt1cb1/piano-lesson"
         >
-          Book Classical Piano
+          Book Piano
         </a>
       </div>
 
@@ -299,7 +299,7 @@
         class="trial-link"
         href="https://cal.com/mind-muse-zt1cb1/piano-trial"
       >
-        Classical Piano Trial
+        Piano Trial
       </a>
 
       <a
@@ -351,7 +351,7 @@
 <form class="booking-form" id="booking-form" action="https://formsubmit.co/mindandmuse.info@gmail.com" method="POST">
 <label>Name<input name="name" required placeholder="Your name"></label>
 <label>Email<input type="email" name="email" required placeholder="you@example.com"></label>
-<input type="hidden" name="lesson" id="form-lesson" value="Classical Piano">
+<input type="hidden" name="lesson" id="form-lesson" value="Piano">
 <input type="hidden" name="booking_type" id="booking-type" value="Regular Lesson">
 <input type="hidden" name="date" id="form-date">
 <input type="hidden" name="time" id="form-time">
@@ -397,7 +397,7 @@ const availability = {
 
 const durations = {piano:45, english:60, chess:60};
 const isTrial = new URLSearchParams(window.location.search).get('trial') === 'true';
-const labels = {piano:'Classical Piano', english:'English', chess:'Chess'};
+const labels = {piano:'Piano', english:'English', chess:'Chess'};
 let selectedLesson='piano';
 let selectedTime='';
 const dateInput=document.getElementById('lesson-date');
