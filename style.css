@@ -116,3 +116,64 @@
   font-size:22px;
   margin:32px 0;
 }
+@media (max-width: 800px) {
+  header {
+    height: auto;
+    min-height: 70px;
+    padding: 18px 20px;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px 18px;
+    font-size: 12px;
+  }
+
+  .hero {
+    min-height: auto;
+    padding: 90px 20px 80px;
+  }
+
+  .brand-name {
+    font-size: 3rem;
+  }
+
+  .hero-tagline span {
+    font-size: 1.1rem;
+  }
+
+  .lead {
+    font-size: 16px;
+  }
+
+  .buttons {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .cards,
+  .content-grid,
+  .chess-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section,
+  .philosophy,
+  .content-grid {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .philosophy {
+    gap: 40px;
+  }
+
+  footer {
+    flex-direction: column;
+    gap: 10px;
+    padding: 24px 20px;
+  }
+}
