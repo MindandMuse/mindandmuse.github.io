@@ -91,32 +91,6 @@
 }
 
 @media (max-width: 800px) {
-  .brand-name {
-    font-size: 3rem;
-  }
-
-  .hero-tagline span {
-    font-size: 2rem;
-  }
-}
-.thank-you{
-  text-align:center;
-  max-width:760px;
-  margin:0 auto;
-}
-
-.thank-you .lead{
-  margin-left:auto;
-  margin-right:auto;
-}
-
-.thank-you-note{
-  font-family:'Playfair Display',serif;
-  font-style:italic;
-  font-size:22px;
-  margin:32px 0;
-}
-@media (max-width: 800px) {
   header {
     height: auto;
     min-height: 70px;
@@ -134,7 +108,15 @@
 
   .hero {
     min-height: auto;
-    padding: 90px 20px 80px;
+    padding: 70px 20px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 55px;
+  }
+
+  .hero-brand {
+    margin-bottom: 0;
   }
 
   .brand-name {
@@ -143,6 +125,16 @@
 
   .hero-tagline span {
     font-size: 1.1rem;
+  }
+
+  .hero-card {
+    width: 100%;
+    min-height: 300px;
+    padding: 36px 28px;
+  }
+
+  .hero-card h2 {
+    font-size: 40px;
   }
 
   .lead {
