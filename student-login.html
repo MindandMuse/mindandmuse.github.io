@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Student Login — Mind & Muse</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+.login-page{
+  max-width:760px;
+  margin:0 auto;
+  padding:10vw 7vw 12vw;
+  text-align:center;
+}
+
+.login-page h1{
+  font-size:clamp(48px,7vw,78px);
+  line-height:1;
+  letter-spacing:-.045em;
+  font-weight:500;
+  margin:0 0 28px;
+}
+
+.login-page h1 em{
+  font-family:'Playfair Display',serif;
+  font-weight:500;
+}
+
+.login-page > p{
+  color:var(--muted);
+  font-size:18px;
+  max-width:600px;
+  margin:0 auto 40px;
+}
+
+.login-box{
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:40px 0;
+  text-align:left;
+  max-width:500px;
+  margin:0 auto;
+}
+
+.login-box label{
+  display:block;
+  font-size:13px;
+  font-weight:600;
+  margin-bottom:20px;
+}
+
+.login-box input{
+  width:100%;
+  margin-top:8px;
+  padding:14px 15px;
+  border:1px solid var(--line);
+  background:#fff;
+  font:inherit;
+  color:var(--ink);
+}
+
+.login-box button{
+  width:100%;
+  cursor:pointer;
+  margin-top:10px;
+}
+
+.login-note{
+  text-align:center;
+  font-size:13px;
+  color:var(--muted);
+  margin-top:28px;
+}
+
+@media(max-width:800px){
+  .login-page{
+    padding:70px 20px 80px;
+  }
+
+  .login-page h1{
+    font-size:46px;
+  }
+
+  .login-page > p{
+    font-size:16px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a class="logo" href="index.html">MIND & MUSE</a>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="piano.html">Piano</a>
+    <a href="english.html">English</a>
+    <a href="chess.html">Chess</a>
+    <a class="nav-cta" href="booking.html">Book a Lesson</a>
+    <a href="student-login.html">Student Login</a>
+    <a href="https://mindandmuse-github-io.translate.goog/?_x_tr_sl=en&_x_tr_tl=fr&_x_tr_hl=en">🌐 Translate</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="login-page">
+
+<p class="eyebrow">STUDENT AREA</p>
+
+<h1>
+  Welcome back.<br>
+  <em>Your learning space.</em>
+</h1>
+
+<p>
+  Your student account will give you access to your Mind & Muse learning space.
+</p>
+
+<div class="login-box">
+
+<label>
+  Email address
+  <input type="email" placeholder="Your email address">
+</label>
+
+<label>
+  Password
+  <input type="password" placeholder="Your password">
+</label>
+
+<button class="button" type="button">
+  Log In
+</button>
+
+<p class="login-note">
+  Student accounts are currently being set up.
+</p>
+
+</div>
+
+</section>
+
+</main>
+
+<footer>
+  <span>© 2026 Mind & Muse</span>
+  <span>Learn · Create · Express</span>
+</footer>
+
+</body>
+</html>
