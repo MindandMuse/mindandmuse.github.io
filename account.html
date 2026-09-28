@@ -379,12 +379,12 @@ if (payments && payments.length > 0) {
     user.email;
 
   const { data: lessons, error } = await supabaseClient
-    .from('lessons')
-    .select('subject, lesson_date, duration_minutes')
-    .eq('user_id', user.id)
-    .gte('lesson_date', new Date().toISOString())
-    .order('lesson_date', { ascending: true });
-      .eq('status', 'scheduled')
+  .from('lessons')
+  .select('subject, lesson_date, duration_minutes')
+  .eq('user_id', user.id)
+  .eq('status', 'scheduled')
+  .gte('lesson_date', new Date().toISOString())
+  .order('lesson_date', { ascending: true });
 
   if(error){
     console.error(error);
