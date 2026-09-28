@@ -618,6 +618,16 @@ if (!lessons || lessons.length === 0) {
 
 }
 
+  async function saveProgress(){
+
+  const userId = studentSelect.value;
+
+  if(!userId){
+    message.textContent =
+      'Please select a student first.';
+    return;
+  }
+
   const subject =
     document.getElementById('progress-subject').value;
 
