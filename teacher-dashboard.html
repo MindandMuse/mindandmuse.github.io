@@ -659,7 +659,7 @@ const editProgressButton =
 
 editProgressButton.addEventListener(
   'click',
-  () => {
+  async () => {
 
     const userId =
       studentSelect.value;
@@ -671,15 +671,66 @@ editProgressButton.addEventListener(
     }
 
     const editor =
-      document.getElementById('progress-editor');
+  document.getElementById('progress-editor');
 
-    if(editor){
-      editor.style.display = 'block';
-      editor.scrollIntoView({
-        behavior:'smooth',
-        block:'start'
-      });
-    }
+if(editor){
+
+  const subject =
+    document.getElementById('progress-subject').value;
+
+  const {
+    data: progress,
+    error
+  } = await supabaseClient
+    .from('student_progress')
+    .select(
+      'goals, current_focus, teacher_feedback, achievements'
+    )
+    .eq('user_id', userId)
+    .eq('subject', subject)
+    .limit(1);
+
+  if(error){
+
+    console.error(error);
+
+    document.getElementById(
+      'progress-message'
+    ).textContent =
+      'Unable to load progress.';
+
+    return;
+  }
+
+  const existing =
+    progress && progress.length > 0
+      ? progress[0]
+      : null;
+
+  document.getElementById('progress-goals').value =
+    existing?.goals || '';
+
+  document.getElementById('progress-focus').value =
+    existing?.current_focus || '';
+
+  document.getElementById('progress-feedback').value =
+    existing?.teacher_feedback || '';
+
+  document.getElementById('progress-achievements').value =
+    existing?.achievements || '';
+
+  document.getElementById(
+    'progress-message'
+  ).textContent = '';
+
+  editor.style.display = 'block';
+
+  editor.scrollIntoView({
+    behavior:'smooth',
+    block:'start'
+  });
+
+}
 
   }
   document
