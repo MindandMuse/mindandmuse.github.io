@@ -368,14 +368,8 @@ document
         return;
       }
 
-      const {
-        data: publicUrlData
-      } = supabaseClient.storage
-        .from('lesson-resources')
-        .getPublicUrl(filePath);
-
       uploadedFileUrl =
-        publicUrlData.publicUrl;
+  filePath;
 
     }
 
