@@ -182,6 +182,15 @@
       <p id="student-email">—</p>
     </section>
 
+    <section class="progress-card progress-card-wide">
+  <div class="card-label">Schedule</div>
+  <h2>Upcoming lessons</h2>
+
+  <div id="student-lessons" class="empty-state">
+    No upcoming lessons scheduled.
+  </div>
+</section>
+    
     <section class="progress-card">
       <div class="card-label">Goals</div>
       <h2>Learning goals</h2>
@@ -552,15 +561,6 @@ async function loadStudentProgress(userId){
   emptyState.textContent = '';
 
 }
-  async function saveProgress(){
-
-  const userId = studentSelect.value;
-
-  if(!userId){
-    message.textContent =
-      'Please select a student first.';
-    return;
-  }
 
   const subject =
     document.getElementById('progress-subject').value;
