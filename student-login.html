@@ -205,11 +205,37 @@ const confirmPasswordInput = document.getElementById("confirm-password");
 const loginButton = document.getElementById("login-button");
 const signupButton = document.getElementById("signup-button");
 const message = document.getElementById("message");
+const confirmPasswordLabel = document.getElementById("confirm-password-label");
+const switchMode = document.getElementById("switch-mode");
+const switchText = document.getElementById("switch-text");
 
 function showMessage(text) {
   message.textContent = text;
 }
+let createMode = false;
 
+switchMode.addEventListener("click", () => {
+  createMode = !createMode;
+
+  confirmPasswordLabel.style.display = createMode ? "block" : "none";
+  loginButton.style.display = createMode ? "none" : "block";
+  signupButton.style.display = createMode ? "block" : "none";
+
+  if (createMode) {
+    switchText.innerHTML =
+      'Already have an account? <button class="auth-link" id="switch-mode" type="button">Log in</button>';
+  } else {
+    switchText.innerHTML =
+      'Don\'t have an account? <button class="auth-link" id="switch-mode" type="button">Create one</button>';
+  }
+
+  document.getElementById("switch-mode").addEventListener("click", () => {
+    switchMode.click();
+  });
+
+  showMessage("");
+});
+  
 loginButton.addEventListener("click", async () => {
 
  const email = emailInput.value.trim();
