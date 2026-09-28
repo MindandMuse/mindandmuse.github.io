@@ -297,7 +297,7 @@
 </div>
   </div>
 
-  <button class="button" id="logout-button" type="button">Log out</button>
+ <a class="button" href="#" id="logout-button">Log out</a>
 
 </div>
 
@@ -625,7 +625,9 @@ if (lessons && lessons.length > 0) {
 
 document
 .getElementById('logout-button')
-.addEventListener('click', async () => {
+.addEventListener('click', async (event) => {
+
+  event.preventDefault();
 
   await supabaseClient.auth.signOut();
 
