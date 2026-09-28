@@ -240,7 +240,104 @@
   >
     Select a student to view their progress.
   </div>
+  <section
+    class="student-picker"
+    id="progress-editor"
+    style="display:none;"
+  >
 
+    <div class="card-label">Update progress</div>
+
+    <h2 style="font-size:32px;font-weight:500;margin:0 0 25px;">
+      Edit Student Progress
+    </h2>
+
+    <label>
+      Subject
+
+      <select id="progress-subject">
+        <option value="Piano">Piano</option>
+        <option value="English">English</option>
+        <option value="Chess">Chess</option>
+      </select>
+
+    </label>
+
+    <label style="display:block;margin-top:22px;">
+      Learning goals
+
+      <textarea
+        id="progress-goals"
+        rows="4"
+        placeholder="What is the student working towards?"
+        style="width:100%;margin-top:8px;padding:14px 15px;border:1px solid var(--line);background:#fff;font:inherit;color:var(--ink);resize:vertical;"
+      ></textarea>
+
+    </label>
+
+    <label style="display:block;margin-top:22px;">
+      Current focus
+
+      <textarea
+        id="progress-focus"
+        rows="4"
+        placeholder="What are you currently working on?"
+        style="width:100%;margin-top:8px;padding:14px 15px;border:1px solid var(--line);background:#fff;font:inherit;color:var(--ink);resize:vertical;"
+      ></textarea>
+
+    </label>
+
+    <label style="display:block;margin-top:22px;">
+      Teacher feedback
+
+      <textarea
+        id="progress-feedback"
+        rows="4"
+        placeholder="Feedback from recent lessons"
+        style="width:100%;margin-top:8px;padding:14px 15px;border:1px solid var(--line);background:#fff;font:inherit;color:var(--ink);resize:vertical;"
+      ></textarea>
+
+    </label>
+
+    <label style="display:block;margin-top:22px;">
+      Achievements
+
+      <textarea
+        id="progress-achievements"
+        rows="4"
+        placeholder="Progress or achievements to celebrate"
+        style="width:100%;margin-top:8px;padding:14px 15px;border:1px solid var(--line);background:#fff;font:inherit;color:var(--ink);resize:vertical;"
+      ></textarea>
+
+    </label>
+
+    <div class="teacher-actions">
+
+      <button
+        class="button"
+        type="button"
+        id="save-progress-button"
+      >
+        Save Progress
+      </button>
+
+      <button
+        type="button"
+        class="logout-button"
+        id="cancel-progress-button"
+      >
+        Cancel
+      </button>
+
+    </div>
+
+    <div
+      class="teacher-message"
+      id="progress-message"
+      aria-live="polite"
+    ></div>
+
+  </section>
 </section>
 
 </main>
