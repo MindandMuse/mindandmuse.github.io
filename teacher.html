@@ -53,6 +53,390 @@
   min-height:120px;
 }
 
+.file-note{
+  display:block;
+  margin-top:8px;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:400;
+}
+
+.teacher-form button{
+  cursor:pointer;
+}
+
+.teacher-message{
+  margin-top:20px;
+  color:var(--muted);
+  font-size:14px;
+}
+
+@media(max-width:700px){
+  .teacher-wrap{
+    padding-left:7vw;
+    padding-right:7vw;
+  }
+
+  .teacher-form{
+    padding:25px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a class="logo" href="index.html">MIND & MUSE</a>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="piano.html">Piano</a>
+    <a href="english.html">English</a>
+    <a href="chess.html">Chess</a>
+    <a class="nav-cta" href="booking.html">Book a Lesson</a>
+    <a class="nav-cta" href="account.html">Student Login</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="teacher-wrap">
+
+  <div class="teacher-intro">
+    <p class="eyebrow">MIND & MUSE</p>
+
+    <h1>
+      Teacher<br>
+      <em>Area</em>
+    </h1>
+
+    <p class="lead">
+      Add lesson materials and resources to your students' accounts.
+    </p>
+  </div>
+
+  <div class="teacher-form">
+
+    <p class="eyebrow">ADD A RESOURCE</p>
+
+    <form id="resource-form">
+
+      <label>
+        Student
+        <select id="student" required>
+          <option value="">Loading students...</option>
+        </select>
+      </label>
+
+      <label>
+        Title
+        <input
+          type="text"
+          id="title"
+          placeholder="e.g. Piano practice exercise"
+          required
+        >
+      </label>
+
+      <label>
+        Description
+        <textarea
+          id="description"
+          placeholder="Add instructions or notes for the student."
+        ></textarea>
+      </label>
+
+      <label>
+        Resource type
+        <select id="resource-type" required>
+          <option value="">Choose a type</option>
+          <option value="Exercise">Exercise</option>
+          <option value="Sheet Music">Sheet Music</option>
+          <option value="Lesson Notes">Lesson Notes</option>
+          <option value="Vocabulary">Vocabulary</option>
+          <option value="Homework">Homework</option>
+          <option value="Other">Other</option>
+        </select>
+      </label>
+
+      <label>
+        Upload a file
+
+        <input
+          type="file"
+          id="resource-file"
+          accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.mp3,.wav,.m4a"
+        >
+
+        <span class="file-note">
+          PDF, documents, images or audio files.
+        </span>
+      </label>
+
+      <label>
+        Or add a resource link
+
+        <input
+          type="url"
+          id="file-url"
+          placeholder="https://..."
+        >
+      </label>
+
+      <button class="button" type="submit">
+        Add Resource
+      </button>
+
+      <div
+        class="teacher-message"
+        id="teacher-message"
+        aria-live="polite"
+      ></div>
+
+    </form>
+
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  <span>© 2026 Mind & Muse</span>
+  <span>Learn · Create · Express</span>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+  'https://yqkenojjfergqfslbpts.supabase.co';
+
+const SUPABASE_PUBLISHABLE_KEY =
+'sb_publishable_8lZ1sx8R_-p9aryao9IrtA_XqRWEHSm';
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+const studentSelect =
+  document.getElementById('student');
+
+const message =
+  document.getElementById('teacher-message');
+
+async function loadTeacherArea(){
+
+  const {
+    data: { session }
+  } = await supabaseClient.auth.getSession();
+
+  if(!session){
+    window.location.href = 'student-login.html';
+    return;
+  }
+
+  const email =
+    session.user.email?.toLowerCase();
+
+  if(email !== 'mindandmuse.info@gmail.com'){
+    window.location.href = 'account.html';
+    return;
+  }
+
+  const {
+    data: users,
+    error
+  } = await supabaseClient
+    .from('student_profiles')
+    .select('user_id, full_name, email')
+    .neq('email', 'mindandmuse.info@gmail.com')
+    .order('full_name');
+
+  if(error){
+    console.error(error);
+    message.textContent =
+      'Unable to load students.';
+    return;
+  }
+
+  studentSelect.innerHTML =
+    '<option value="">Choose a student</option>';
+
+  users.forEach(student => {
+
+    const option =
+      document.createElement('option');
+
+    option.value =
+      student.user_id;
+
+    option.textContent =
+      student.full_name
+        ? `${student.full_name} — ${student.email}`
+        : student.email;
+
+    studentSelect.appendChild(option);
+
+  });
+
+}
+
+document
+  .getElementById('resource-form')
+  .addEventListener('submit', async (event) => {
+
+    event.preventDefault();
+
+    message.textContent =
+      'Adding resource...';
+
+    const userId =
+      studentSelect.value;
+
+    const title =
+      document.getElementById('title')
+        .value.trim();
+
+    const description =
+      document.getElementById('description')
+        .value.trim();
+
+    const resourceType =
+      document.getElementById('resource-type')
+        .value;
+
+    const fileUrl =
+      document.getElementById('file-url')
+        .value.trim();
+
+    const fileInput =
+      document.getElementById('resource-file');
+
+    const file =
+      fileInput.files[0];
+
+    if(!userId || !title || !resourceType){
+
+      message.textContent =
+        'Please complete the required fields.';
+
+      return;
+    }
+
+    if(file && file.size > 20 * 1024 * 1024){
+
+      message.textContent =
+        'Please choose a file smaller than 20 MB.';
+
+      return;
+    }
+
+    let uploadedFileUrl = fileUrl || null;
+
+    if(file){
+
+      message.textContent =
+        'Uploading file...';
+
+      const safeFileName =
+        file.name.replace(
+          /[^a-zA-Z0-9._-]/g,
+          '_'
+        );
+
+      const filePath =
+        `${userId}/${Date.now()}-${safeFileName}`;
+
+      const {
+        error: uploadError
+      } = await supabaseClient.storage
+        .from('lesson-resources')
+        .upload(filePath, file);
+
+      if(uploadError){
+
+        console.error(uploadError);
+
+        message.textContent =
+          'Unable to upload the file.';
+
+        return;
+      }
+
+      const {
+        data: publicUrlData
+      } = supabaseClient.storage
+        .from('lesson-resources')
+        .getPublicUrl(filePath);
+
+      uploadedFileUrl =
+        publicUrlData.publicUrl;
+
+    }
+
+    message.textContent =
+      'Saving resource...';
+
+    const {
+      error
+    } = await supabaseClient
+      .from('resources')
+      .insert({
+        user_id: userId,
+        title: title,
+        description: description || null,
+        resource_type: resourceType,
+        file_url: uploadedFileUrl
+      });
+
+    if(error){
+
+      console.error(error);
+
+      message.textContent =
+        'Unable to add the resource.';
+
+      return;
+    }
+
+    message.textContent =
+      'Resource added successfully.';
+
+    document
+      .getElementById('resource-form')
+      .reset();
+
+  });
+
+loadTeacherArea();
+
+</script>
+
+</body>
+</html>}
+
+.teacher-form input,
+.teacher-form select,
+.teacher-form textarea{
+  width:100%;
+  margin-top:8px;
+  padding:14px 15px;
+  border:1px solid var(--line);
+  background:#fff;
+  font:inherit;
+  color:var(--ink);
+}
+
+.teacher-form textarea{
+  resize:vertical;
+  min-height:120px;
+}
+
 .teacher-form button{
   cursor:pointer;
 }
