@@ -152,7 +152,7 @@
   <input id="password" type="password" placeholder="Your password" autocomplete="current-password">
 </label>
   
-  <label>
+  <label id="confirm-password-label" style="display:none;">
   Confirm password
   <input id="confirm-password" type="password" placeholder="Confirm your password">
 </label>
@@ -164,6 +164,11 @@
 <button class="button secondary-button" id="signup-button" type="button">
   Create an Account
 </button>
+
+<p class="login-switch" id="switch-text">
+  Don't have an account?
+  <button class="auth-link" id="switch-mode" type="button">Create one</button>
+</p>
 
 <p class="login-message" id="message"></p>
 
