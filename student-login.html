@@ -66,11 +66,31 @@
   margin-top:10px;
 }
 
-.login-note{
+.secondary-button{
+  width:100%;
+  cursor:pointer;
+  margin-top:12px;
+  background:transparent;
+  color:var(--ink);
+}
+
+.login-message{
   text-align:center;
   font-size:13px;
   color:var(--muted);
-  margin-top:28px;
+  margin-top:24px;
+  min-height:20px;
+}
+
+.login-switch{
+  text-align:center;
+  font-size:13px;
+  margin-top:24px;
+}
+
+.login-switch a{
+  text-decoration:underline;
+  cursor:pointer;
 }
 
 @media(max-width:800px){
@@ -100,7 +120,7 @@
     <a href="english.html">English</a>
     <a href="chess.html">Chess</a>
     <a class="nav-cta" href="booking.html">Book a Lesson</a>
-    <a href="student-login.html">Student Login</a>
+    <a class="nav-cta" href="student-login.html">Student Login</a>
     <a href="https://mindandmuse-github-io.translate.goog/?_x_tr_sl=en&_x_tr_tl=fr&_x_tr_hl=en">🌐 Translate</a>
   </nav>
 </header>
@@ -116,28 +136,34 @@
   <em>Your learning space.</em>
 </h1>
 
-<p>
-  Your student account will give you access to your Mind & Muse learning space.
+<p id="intro-text">
+  Log in to your Mind & Muse student account.
 </p>
 
 <div class="login-box">
 
 <label>
   Email address
-  <input type="email" placeholder="Your email address">
+  <input id="email" type="email" placeholder="Your email address" autocomplete="email">
 </label>
 
 <label>
   Password
-  <input type="password" placeholder="Your password">
+  <input id="password" type="password" placeholder="Your password" autocomplete="current-password">
 </label>
 
-<button class="button" type="button">
+<button class="button" id="login-button" type="button">
   Log In
 </button>
 
-<p class="login-note">
-  Student accounts are currently being set up.
+<button class="button secondary-button" id="signup-button" type="button">
+  Create an Account
+</button>
+
+<p class="login-message" id="message"></p>
+
+<p class="login-switch">
+  Your account is created securely through Mind & Muse.
 </p>
 
 </div>
@@ -150,6 +176,89 @@
   <span>© 2026 Mind & Muse</span>
   <span>Learn · Create · Express</span>
 </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://yqkenojjfergqfslbpts.supabase.co";
+
+const SUPABASE_KEY = "sb_publishable_8lZ1sx8R_-p9aryao9IrtA_XqRWEHSm";
+
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const loginButton = document.getElementById("login-button");
+const signupButton = document.getElementById("signup-button");
+const message = document.getElementById("message");
+
+function showMessage(text) {
+  message.textContent = text;
+}
+
+loginButton.addEventListener("click", async () => {
+
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
+
+  if (!email || !password) {
+    showMessage("Please enter your email and password.");
+    return;
+  }
+
+  showMessage("Logging in...");
+
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    showMessage(error.message);
+    return;
+  }
+
+  window.location.href = "account.html";
+});
+
+signupButton.addEventListener("click", async () => {
+
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
+
+  if (!email || !password) {
+    showMessage("Please enter an email and password.");
+    return;
+  }
+
+  if (password.length < 6) {
+    showMessage("Your password must contain at least 6 characters.");
+    return;
+  }
+
+  showMessage("Creating your account...");
+
+  const { error } = await supabaseClient.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: "https://mindandmuse.github.io/account.html"
+    }
+  });
+
+  if (error) {
+    showMessage(error.message);
+    return;
+  }
+
+  showMessage(
+    "Account created. Please check your email to confirm your account."
+  );
+});
+</script>
 
 </body>
 </html>
