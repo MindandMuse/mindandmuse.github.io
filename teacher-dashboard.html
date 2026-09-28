@@ -596,31 +596,42 @@ if (!lessons || lessons.length === 0) {
     .textContent =
       'No achievements added yet.';
 
-  if(progress && progress.length > 0){
+ if(progress && progress.length > 0){
 
-    const latest =
-      progress[0];
+  const subjectSelector =
+    document.getElementById('display-progress-subject');
 
-    document.getElementById('goals')
-      .textContent =
-      latest.goals ||
-      'No goals added yet.';
+  const selectedSubject =
+    subjectSelector.value;
 
-    document.getElementById('current-focus')
-      .textContent =
-      latest.current_focus ||
-      'No current focus added yet.';
+  const selectedProgress =
+    progress.find(
+      item => item.subject === selectedSubject
+    );
 
-    document.getElementById('teacher-feedback')
-      .textContent =
-      latest.teacher_feedback ||
-      'No feedback added yet.';
+  const current =
+    selectedProgress || {};
 
-    document.getElementById('achievements')
-      .textContent =
-      latest.achievements ||
-      'No achievements added yet.';
-  }
+  document.getElementById('goals')
+    .textContent =
+    current.goals ||
+    'No goals added yet.';
+
+  document.getElementById('current-focus')
+    .textContent =
+    current.current_focus ||
+    'No current focus added yet.';
+
+  document.getElementById('teacher-feedback')
+    .textContent =
+    current.teacher_feedback ||
+    'No feedback added yet.';
+
+  document.getElementById('achievements')
+    .textContent =
+    current.achievements ||
+    'No achievements added yet.';
+}
 
   progressGrid.style.display =
     'grid';
@@ -838,7 +849,14 @@ studentSelect.addEventListener(
     studentSelect.value
   )
 );
-
+document
+  .getElementById('display-progress-subject')
+  .addEventListener(
+    'change',
+    () => loadStudentProgress(
+      studentSelect.value
+    )
+  );
 loadTeacherDashboard();
 
 </script>
