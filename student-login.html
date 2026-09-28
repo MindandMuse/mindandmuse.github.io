@@ -151,6 +151,11 @@
   Password
   <input id="password" type="password" placeholder="Your password" autocomplete="current-password">
 </label>
+  
+  <label>
+  Confirm password
+  <input id="confirm-password" type="password" placeholder="Confirm your password">
+</label>
 
 <button class="button" id="login-button" type="button">
   Log In
@@ -188,7 +193,8 @@ const supabaseClient = supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
-
+  
+const fullName = prompt("What is your full name?");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const loginButton = document.getElementById("login-button");
