@@ -324,6 +324,16 @@ async function loadAccount(){
   }
 
   const user = session.user;
+  
+  const teacherDashboardLink =
+  document.getElementById('teacher-dashboard-link');
+
+if (
+  user.email?.toLowerCase() ===
+  'mindandmuse.info@gmail.com'
+) {
+  teacherDashboardLink.style.display = 'inline-block';
+}
 
   const { data: payments, error: paymentError } = await supabaseClient
   .from('payments')
