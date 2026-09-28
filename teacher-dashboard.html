@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Teacher Dashboard | Mind & Muse</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+.teacher-wrap{
+  max-width:1100px;
+  margin:0 auto;
+  padding:7vw 6vw 9vw;
+}
+
+.teacher-intro{
+  margin-bottom:50px;
+}
+
+.teacher-intro h1{
+  margin-bottom:15px;
+}
+
+.student-picker{
+  background:#fff;
+  border:1px solid var(--line);
+  padding:30px;
+  margin-bottom:24px;
+}
+
+.student-picker label{
+  display:block;
+  font-size:13px;
+  font-weight:600;
+}
+
+.student-picker select{
+  width:100%;
+  margin-top:8px;
+  padding:14px 15px;
+  border:1px solid var(--line);
+  background:#fff;
+  font:inherit;
+  color:var(--ink);
+}
+
+.progress-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:22px;
+}
+
+.progress-card{
+  background:#fff;
+  border:1px solid var(--line);
+  padding:30px;
+  min-height:180px;
+}
+
+.progress-card-wide{
+  grid-column:1 / -1;
+}
+
+.card-label{
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:14px;
+}
+
+.progress-card h2{
+  font-size:24px;
+  font-weight:500;
+  margin:0 0 12px;
+}
+
+.progress-card p{
+  color:var(--muted);
+  white-space:pre-wrap;
+}
+
+.empty-state{
+  color:var(--muted);
+  font-size:14px;
+}
+
+.teacher-actions{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+  margin-top:30px;
+}
+
+.teacher-message{
+  margin-top:20px;
+  color:var(--muted);
+  font-size:14px;
+}
+
+@media(max-width:700px){
+  .teacher-wrap{
+    padding-left:7vw;
+    padding-right:7vw;
+  }
+
+  .progress-grid{
+    grid-template-columns:1fr;
+  }
+
+  .progress-card-wide{
+    grid-column:auto;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a class="logo" href="index.html">MIND & MUSE</a>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="piano.html">Piano</a>
+    <a href="english.html">English</a>
+    <a href="chess.html">Chess</a>
+    <a class="nav-cta" href="booking.html">Book a Lesson</a>
+    <a class="nav-cta" href="account.html">Student Login</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="teacher-wrap">
+
+  <div class="teacher-intro">
+
+    <p class="eyebrow">MIND & MUSE</p>
+
+    <h1>
+      Teacher<br>
+      <em>Dashboard</em>
+    </h1>
+
+    <p class="lead">
+      View and manage your students' learning progress.
+    </p>
+
+  </div>
+
+  <div class="student-picker">
+
+    <label>
+      Student
+
+      <select id="student-select">
+        <option value="">Loading students...</option>
+      </select>
+
+    </label>
+
+    <div
+      class="teacher-message"
+      id="teacher-message"
+      aria-live="polite">
+    </div>
+
+  </div>
+
+  <div
+    class="progress-grid"
+    id="progress-grid"
+    style="display:none;"
+  >
+
+    <section class="progress-card progress-card-wide">
+      <div class="card-label">Student</div>
+      <h2 id="student-name">—</h2>
+      <p id="student-email">—</p>
+    </section>
+
+    <section class="progress-card">
+      <div class="card-label">Goals</div>
+      <h2>Learning goals</h2>
+      <p id="goals">No goals added yet.</p>
+    </section>
+
+    <section class="progress-card">
+      <div class="card-label">Current focus</div>
+      <h2>Current focus</h2>
+      <p id="current-focus">No current focus added yet.</p>
+    </section>
+
+    <section class="progress-card">
+      <div class="card-label">Teacher feedback</div>
+      <h2>Feedback</h2>
+      <p id="teacher-feedback">No feedback added yet.</p>
+    </section>
+
+    <section class="progress-card">
+      <div class="card-label">Achievements</div>
+      <h2>Achievements</h2>
+      <p id="achievements">No achievements added yet.</p>
+    </section>
+
+    <section class="progress-card progress-card-wide">
+
+      <div class="card-label">Actions</div>
+
+      <div class="teacher-actions">
+
+        <a
+          class="button"
+          href="teacher.html"
+        >
+          Add Lesson Material
+        </a>
+
+        <a
+          class="text-link"
+          href="index.html"
+        >
+          Back to Home
+        </a>
+
+      </div>
+
+    </section>
+
+  </div>
+
+  <div
+    class="empty-state"
+    id="empty-state"
+  >
+    Select a student to view their progress.
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  <span>© 2026 Mind & Muse</span>
+  <span>Learn · Create · Express</span>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+  'https://yqkenojjfergqfslbpts.supabase.co';
+
+const SUPABASE_PUBLISHABLE_KEY =
+'sb_publishable_8lZ1sx8R_-p9aryao9IrtA_XqRWEHSm';
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+const studentSelect =
+  document.getElementById('student-select');
+
+const progressGrid =
+  document.getElementById('progress-grid');
+
+const emptyState =
+  document.getElementById('empty-state');
+
+const message =
+  document.getElementById('teacher-message');
+
+async function loadTeacherDashboard(){
+
+  const {
+    data: { session }
+  } = await supabaseClient.auth.getSession();
+
+  if(!session){
+
+    window.location.href =
+      'student-login.html';
+
+    return;
+  }
+
+  const email =
+    session.user.email?.toLowerCase();
+
+  if(email !== 'mindandmuse.info@gmail.com'){
+
+    window.location.href =
+      'account.html';
+
+    return;
+  }
+
+  const {
+    data: students,
+    error
+  } = await supabaseClient
+    .from('student_profiles')
+    .select('user_id, full_name, email')
+    .neq('email', 'mindandmuse.info@gmail.com')
+    .order('full_name');
+
+  if(error){
+
+    console.error(error);
+
+    message.textContent =
+      'Unable to load students.';
+
+    return;
+  }
+
+  studentSelect.innerHTML =
+    '<option value="">Choose a student</option>';
+
+  students.forEach(student => {
+
+    const option =
+      document.createElement('option');
+
+    option.value =
+      student.user_id;
+
+    option.textContent =
+      student.full_name
+        ? `${student.full_name} — ${student.email}`
+        : student.email;
+
+    studentSelect.appendChild(option);
+
+  });
+
+}
+
+async function loadStudentProgress(userId){
+
+  progressGrid.style.display =
+    'none';
+
+  emptyState.textContent =
+    'Loading student progress...';
+
+  if(!userId){
+
+    emptyState.textContent =
+      'Select a student to view their progress.';
+
+    return;
+  }
+
+  const selectedOption =
+    studentSelect.options[
+      studentSelect.selectedIndex
+    ];
+
+  const studentName =
+    selectedOption.textContent
+      .split(' — ')[0];
+
+  const studentEmail =
+    selectedOption.textContent
+      .includes(' — ')
+      ? selectedOption.textContent
+          .split(' — ')[1]
+      : '';
+
+  document.getElementById('student-name')
+    .textContent =
+      studentName;
+
+  document.getElementById('student-email')
+    .textContent =
+      studentEmail;
+
+  const {
+    data: progress,
+    error
+  } = await supabaseClient
+    .from('student_progress')
+    .select(
+      'subject, goals, current_focus, teacher_feedback, achievements, updated_at'
+    )
+    .eq('user_id', userId)
+    .order('updated_at', {
+      ascending:false
+    });
+
+  if(error){
+
+    console.error(error);
+
+    emptyState.textContent =
+      'Unable to load progress.';
+
+    return;
+  }
+
+  document.getElementById('goals')
+    .textContent =
+      'No goals added yet.';
+
+  document.getElementById('current-focus')
+    .textContent =
+      'No current focus added yet.';
+
+  document.getElementById('teacher-feedback')
+    .textContent =
+      'No feedback added yet.';
+
+  document.getElementById('achievements')
+    .textContent =
+      'No achievements added yet.';
+
+  if(progress && progress.length > 0){
+
+    const latest =
+      progress[0];
+
+    document.getElementById('goals')
+      .textContent =
+      latest.goals ||
+      'No goals added yet.';
+
+    document.getElementById('current-focus')
+      .textContent =
+      latest.current_focus ||
+      'No current focus added yet.';
+
+    document.getElementById('teacher-feedback')
+      .textContent =
+      latest.teacher_feedback ||
+      'No feedback added yet.';
+
+    document.getElementById('achievements')
+      .textContent =
+      latest.achievements ||
+      'No achievements added yet.';
+  }
+
+  progressGrid.style.display =
+    'grid';
+
+  emptyState.textContent = '';
+
+}
+
+studentSelect.addEventListener(
+  'change',
+  () => loadStudentProgress(
+    studentSelect.value
+  )
+);
+
+loadTeacherDashboard();
+
+</script>
+
+</body>
+</html>
