@@ -455,7 +455,62 @@ if (resources && resources.length > 0) {
     resourceHTML.join('');
 
 }
+  const {
+    data: progress,
+    error: progressError
+  } = await supabaseClient
+    .from('student_progress')
+    .select(
+      'subject, goals, current_focus, teacher_feedback, achievements, updated_at'
+    )
+    .eq('user_id', user.id)
+    .order('subject');
 
+  if (progressError) {
+    console.error(progressError);
+  }
+
+  const progressContainer =
+    document.getElementById('student-progress');
+
+  if (progress && progress.length > 0) {
+
+    progressContainer.innerHTML =
+      progress.map(item => `
+        <div style="padding:22px 0;border-bottom:1px solid var(--line);">
+
+          <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">
+            ${item.subject}
+          </div>
+
+          ${
+            item.goals
+              ? `<p style="margin:8px 0;"><strong>Goals</strong><br>${item.goals}</p>`
+              : ''
+          }
+
+          ${
+            item.current_focus
+              ? `<p style="margin:8px 0;"><strong>Current focus</strong><br>${item.current_focus}</p>`
+              : ''
+          }
+
+          ${
+            item.teacher_feedback
+              ? `<p style="margin:8px 0;"><strong>Teacher feedback</strong><br>${item.teacher_feedback}</p>`
+              : ''
+          }
+
+          ${
+            item.achievements
+              ? `<p style="margin:8px 0;"><strong>Achievements</strong><br>${item.achievements}</p>`
+              : ''
+          }
+
+        </div>
+      `).join('');
+
+  }
   const fullName =
     user.user_metadata?.full_name || 'Student';
 
