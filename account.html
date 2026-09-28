@@ -247,21 +247,22 @@
     </section>
 
 
-    <section class="dashboard-card">
-      <div class="card-label">Payments</div>
+<section class="dashboard-card">
+  <div class="card-label">Payments</div>
 
-      <h2>Payment history</h2>
+  <h2>Payment history</h2>
 
-      <p>
-        Your payments, invoices, and receipts will appear here.
-      </p>
+  <p>
+    Your payments, invoices, and receipts will appear here.
+  </p>
 
-      <div class="empty-state">
-  Your payments and receipts will appear here.
-  <br>
-  Payment history will be available once you have completed a lesson booking.
-</div>
-    </section>
+  <div class="empty-state" id="payment-history">
+    No payments yet.
+    <br>
+    Your payment history will appear here after you complete a paid booking.
+  </div>
+</section>
+
 
   </div>
 
@@ -315,6 +316,55 @@ async function loadAccount(){
   }
 
   const user = session.user;
+
+  const { data: payments, error: paymentError } = await supabaseClient
+  .from('payments')
+  .select('amount, currency, payment_date, status, payment_id, receipt_url')
+  .eq('user_id', user.id)
+  .order('payment_date', { ascending: false });
+
+if (paymentError) {
+  console.error(paymentError);
+}
+
+const paymentContainer =
+  document.getElementById('payment-history');
+
+if (payments && payments.length > 0) {
+  paymentContainer.innerHTML = payments.map(payment => {
+
+    const date = new Date(payment.payment_date);
+
+    const formattedDate =
+      date.toLocaleDateString('en-AU', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+
+    const amount =
+      new Intl.NumberFormat('en-AU', {
+        style: 'currency',
+        currency: payment.currency || 'AUD'
+      }).format(payment.amount);
+
+    return `
+      <div style="padding:20px 0; border-bottom:1px solid var(--line);">
+        <strong>${amount}</strong>
+        <br>
+        ${formattedDate}
+        <br>
+        ${payment.status}
+        ${
+          payment.receipt_url
+            ? `<br><a class="text-link" href="${payment.receipt_url}" target="_blank">View receipt</a>`
+            : ''
+        }
+      </div>
+    `;
+
+  }).join('');
+}
 
   const fullName =
     user.user_metadata?.full_name || 'Student';
