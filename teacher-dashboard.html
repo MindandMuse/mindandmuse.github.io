@@ -552,6 +552,108 @@ async function loadStudentProgress(userId){
   emptyState.textContent = '';
 
 }
+  async function saveProgress(){
+
+  const userId = studentSelect.value;
+
+  if(!userId){
+    message.textContent =
+      'Please select a student first.';
+    return;
+  }
+
+  const subject =
+    document.getElementById('progress-subject').value;
+
+  const goals =
+    document.getElementById('progress-goals').value.trim();
+
+  const currentFocus =
+    document.getElementById('progress-focus').value.trim();
+
+  const teacherFeedback =
+    document.getElementById('progress-feedback').value.trim();
+
+  const achievements =
+    document.getElementById('progress-achievements').value.trim();
+
+  const progressMessage =
+    document.getElementById('progress-message');
+
+  progressMessage.textContent =
+    'Saving progress...';
+
+  const {
+    data: existing,
+    error: findError
+  } = await supabaseClient
+    .from('student_progress')
+    .select('id')
+    .eq('user_id', userId)
+    .eq('subject', subject)
+    .limit(1);
+
+  if(findError){
+
+    console.error(findError);
+
+    progressMessage.textContent =
+      'Unable to save progress.';
+
+    return;
+  }
+
+  let error;
+
+  if(existing && existing.length > 0){
+
+    const result =
+      await supabaseClient
+        .from('student_progress')
+        .update({
+          goals,
+          current_focus: currentFocus,
+          teacher_feedback: teacherFeedback,
+          achievements,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', existing[0].id);
+
+    error = result.error;
+
+  } else {
+
+    const result =
+      await supabaseClient
+        .from('student_progress')
+        .insert({
+          user_id: userId,
+          subject,
+          goals,
+          current_focus: currentFocus,
+          teacher_feedback: teacherFeedback,
+          achievements
+        });
+
+    error = result.error;
+  }
+
+  if(error){
+
+    console.error(error);
+
+    progressMessage.textContent =
+      'Unable to save progress.';
+
+    return;
+  }
+
+  progressMessage.textContent =
+    'Progress saved successfully.';
+
+  await loadStudentProgress(userId);
+
+}
 const editProgressButton =
   document.getElementById('edit-progress-button');
 
@@ -580,7 +682,29 @@ editProgressButton.addEventListener(
     }
 
   }
-);
+  document
+  .getElementById('save-progress-button')
+  .addEventListener(
+    'click',
+    saveProgress
+  );
+
+document
+  .getElementById('cancel-progress-button')
+  .addEventListener(
+    'click',
+    () => {
+
+      document.getElementById(
+        'progress-editor'
+      ).style.display = 'none';
+
+      document.getElementById(
+        'progress-message'
+      ).textContent = '';
+
+    }
+  );
 studentSelect.addEventListener(
   'change',
   () => loadStudentProgress(
