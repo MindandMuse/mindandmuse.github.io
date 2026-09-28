@@ -281,7 +281,7 @@ async function loadAccount(){
   } = await supabaseClient.auth.getSession();
 
   if(!session){
-    window.location.href = 'auth.html';
+    window.location.href = 'student-login.html';
     return;
   }
 
@@ -303,7 +303,7 @@ document
 
   await supabaseClient.auth.signOut();
 
-  window.location.href = 'auth.html';
+  window.location.href = 'student-login.html';
 });
 
 loadAccount();
