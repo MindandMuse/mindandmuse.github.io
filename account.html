@@ -316,10 +316,10 @@ async function loadAccount(){
 
   const user = session.user;
 
-const fullName =
+  const fullName =
     user.user_metadata?.full_name || 'Student';
 
-const firstName =
+  const firstName =
     fullName.trim().split(/\s+/)[0];
 
   document.getElementById('student-name').textContent =
@@ -327,6 +327,55 @@ const firstName =
 
   document.getElementById('student-email').textContent =
     user.email;
+
+  const { data: lessons, error } = await supabaseClient
+    .from('lessons')
+    .select('subject, lesson_date, duration_minutes')
+    .eq('user_id', user.id)
+    .gte('lesson_date', new Date().toISOString())
+    .order('lesson_date', { ascending: true });
+
+  if(error){
+    console.error(error);
+    return;
+  }
+
+  const lessonsContainer =
+    document.querySelector('.dashboard-card-wide .empty-state');
+
+  if(!lessons || lessons.length === 0){
+    return;
+  }
+
+  lessonsContainer.innerHTML = lessons.map(lesson => {
+
+    const date = new Date(lesson.lesson_date);
+
+    const formattedDate =
+      date.toLocaleDateString('en-AU', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long'
+      });
+
+    const formattedTime =
+      date.toLocaleTimeString('en-AU', {
+        hour: 'numeric',
+        minute: '2-digit'
+      });
+
+    return `
+      <div style="padding:20px 0; border-bottom:1px solid var(--line);">
+        <strong>${lesson.subject}</strong>
+        <br>
+        ${formattedDate}
+        <br>
+        ${formattedTime} · ${lesson.duration_minutes} minutes
+      </div>
+    `;
+
+  }).join('');
+
 }
 
 document
