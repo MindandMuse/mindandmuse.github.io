@@ -489,7 +489,63 @@ async function loadStudentProgress(userId){
   document.getElementById('student-email')
     .textContent =
       studentEmail;
+const {
+  data: lessons,
+  error: lessonsError
+} = await supabaseClient
+  .from('lessons')
+  .select('subject, lesson_date, duration_minutes')
+  .eq('user_id', userId)
+  .eq('status', 'scheduled')
+  .gte('lesson_date', new Date().toISOString())
+  .order('lesson_date', { ascending: true });
 
+if (lessonsError) {
+  console.error(lessonsError);
+}
+
+const lessonsContainer =
+  document.getElementById('student-lessons');
+
+if (!lessons || lessons.length === 0) {
+
+  lessonsContainer.textContent =
+    'No upcoming lessons scheduled.';
+
+} else {
+
+  lessonsContainer.innerHTML =
+    lessons.map(lesson => {
+
+      const date =
+        new Date(lesson.lesson_date);
+
+      const formattedDate =
+        date.toLocaleDateString('en-AU', {
+          weekday: 'long',
+          day: 'numeric',
+          month: 'long'
+        });
+
+      const formattedTime =
+        date.toLocaleTimeString('en-AU', {
+          hour: 'numeric',
+          minute: '2-digit'
+        });
+
+      return `
+        <div style="padding:18px 0;border-bottom:1px solid var(--line);">
+          <strong>${lesson.subject}</strong>
+          <br>
+          ${formattedDate}
+          <br>
+          ${formattedTime} · ${lesson.duration_minutes} minutes
+        </div>
+      `;
+
+    }).join('');
+
+}
   const {
     data: progress,
     error
