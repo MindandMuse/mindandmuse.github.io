@@ -205,7 +205,7 @@
         Your enrolled subjects will appear here.
       </p>
 
-      <div class="empty-state">
+      <div class="empty-state" id="student-subjects">
   Your subjects will appear here once you've booked a lesson.
 </div>
 </section>
@@ -535,7 +535,26 @@ if (resources && resources.length > 0) {
     console.error(error);
     return;
   }
+const subjectsContainer =
+  document.getElementById('student-subjects');
 
+if (lessons && lessons.length > 0) {
+
+  const subjects = [
+    ...new Set(
+      lessons.map(lesson => lesson.subject)
+    )
+  ];
+
+  subjectsContainer.innerHTML = `
+    <div class="subject-list">
+      ${subjects.map(subject => `
+        <span class="subject">${subject}</span>
+      `).join('')}
+    </div>
+  `;
+
+}
   const lessonsContainer =
     document.querySelector('.dashboard-card-wide .empty-state');
 
