@@ -162,7 +162,9 @@
       <em id="student-name">Student.</em>
     </h1>
 
-    <p class="account-email" id="student-email"></p>
+    <<p class="account-email">
+  <span id="student-email"></span>
+</p>
   </div>
 
   <div class="dashboard-grid">
@@ -212,8 +214,10 @@
       </p>
 
       <div class="empty-state">
-        No materials have been added yet.
-      </div>
+  Your lesson materials will appear here.
+  <br>
+  Exercises, notes, sheet music and other resources will be added by your teacher.
+</div>
     </section>
 
 
@@ -227,8 +231,10 @@
       </p>
 
       <div class="empty-state">
-        Progress tracking coming soon.
-      </div>
+  Your progress will be updated as you learn.
+  <br>
+  You'll be able to see your goals, teacher feedback and achievements here.
+</div>
     </section>
 
 
@@ -242,8 +248,10 @@
       </p>
 
       <div class="empty-state">
-        No payment history yet.
-      </div>
+  Your payments and receipts will appear here.
+  <br>
+  Payment history will be available once you have completed a lesson booking.
+</div>
     </section>
 
   </div>
@@ -289,11 +297,14 @@ async function loadAccount(){
 
   const user = session.user;
 
-  const name =
+const fullName =
     user.user_metadata?.full_name || 'Student';
 
+const firstName =
+    fullName.trim().split(/\s+/)[0];
+
   document.getElementById('student-name').textContent =
-    name + '.';
+    firstName;
 
   document.getElementById('student-email').textContent =
     user.email;
