@@ -455,7 +455,35 @@ async function loadStudentProgress(userId){
   emptyState.textContent = '';
 
 }
+const editProgressButton =
+  document.getElementById('edit-progress-button');
 
+editProgressButton.addEventListener(
+  'click',
+  () => {
+
+    const userId =
+      studentSelect.value;
+
+    if(!userId){
+      message.textContent =
+        'Please select a student first.';
+      return;
+    }
+
+    const editor =
+      document.getElementById('progress-editor');
+
+    if(editor){
+      editor.style.display = 'block';
+      editor.scrollIntoView({
+        behavior:'smooth',
+        block:'start'
+      });
+    }
+
+  }
+);
 studentSelect.addEventListener(
   'change',
   () => loadStudentProgress(
